@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <rect width="120" height="120" rx="24" fill="#0b5ed7"/>
+  <path d="M22 70 L30 50 Q33 43 41 43 L79 43 Q87 43 90 50 L98 70 Q101 72 101 76 L101 84 Q101 87 98 87 L22 87 Q19 87 19 84 L19 76 Q19 72 22 70 Z" fill="#ffffff"/>
+  <path d="M33 68 L39 52 Q40 50 43 50 L77 50 Q80 50 81 52 L87 68 Z" fill="#9ec5fe"/>
+  <circle cx="38" cy="87" r="10" fill="#212529"/>
+  <circle cx="38" cy="87" r="4" fill="#adb5bd"/>
+  <circle cx="82" cy="87" r="10" fill="#212529"/>
+  <circle cx="82" cy="87" r="4" fill="#adb5bd"/>
+  <text x="60" y="30" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">ALUGUEL</text>
+</svg>
