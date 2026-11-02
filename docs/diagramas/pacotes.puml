@@ -1,0 +1,63 @@
+@startuml pacotes
+!pragma layout smetana
+skinparam packageStyle folder
+
+title Sistema de Aluguel de Carros - Diagrama de Pacotes (Visão Lógica)
+
+package "Front-end (React + Vite)\nSubsistema de construção dinâmica das páginas" {
+  package pages {
+  }
+  package components {
+  }
+  package context {
+  }
+  package services {
+  }
+  package utils {
+  }
+}
+
+package "Back-end (Spring Boot) - br.pucminas.aluguel\nSubsistema de gestão de pedidos e contratos" {
+  package controller {
+  }
+  package service {
+  }
+  package repository {
+  }
+  package model {
+  }
+  package dto {
+  }
+  package config {
+  }
+  package exception {
+  }
+}
+
+database "Supabase (PostgreSQL)" as DB
+
+pages ..> components
+pages ..> context
+pages ..> services
+pages ..> utils
+components ..> context
+components ..> utils
+context ..> services
+
+services ..> controller : HTTP/JSON (REST + JWT)
+
+controller ..> service
+controller ..> dto
+service ..> repository
+service ..> model
+service ..> dto
+service ..> exception
+dto ..> model
+repository ..> model
+model ..> exception
+config ..> repository
+config ..> model
+
+repository ..> DB : JPA / JDBC
+
+@enduml

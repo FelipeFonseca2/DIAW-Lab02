@@ -1,0 +1,416 @@
+:root {
+  --cor-primaria: #0b5ed7;
+  --cor-primaria-escura: #0a4fb4;
+  --cor-texto: #1f2933;
+  --cor-texto-suave: #616e7c;
+  --cor-fundo: #f3f5f9;
+  --cor-superficie: #ffffff;
+  --cor-borda: #d9dee6;
+  --cor-perigo: #c62828;
+  --cor-sucesso: #2e7d32;
+  --raio: 8px;
+
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cor-fundo);
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0.2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 0 0 1rem;
+}
+
+a {
+  color: var(--cor-primaria);
+}
+
+small {
+  color: var(--cor-texto-suave);
+  font-weight: normal;
+}
+
+/* Topo */
+.topo {
+  background: var(--cor-superficie);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.topo-conteudo {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: var(--cor-texto);
+  text-decoration: none;
+}
+
+.topo nav {
+  display: flex;
+  gap: 1rem;
+  flex: 1;
+}
+
+.topo nav a {
+  color: var(--cor-texto-suave);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+
+.topo nav a.active {
+  color: var(--cor-primaria);
+  border-bottom-color: var(--cor-primaria);
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.usuario span {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  line-height: 1.2;
+}
+
+/* Conteúdo */
+.conteudo {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.cabecalho-pagina {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.subtitulo {
+  color: var(--cor-texto-suave);
+  margin: 0;
+}
+
+.cartao {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Botões */
+.botao {
+  display: inline-block;
+  background: var(--cor-primaria);
+  color: #fff;
+  border: 1px solid var(--cor-primaria);
+  border-radius: var(--raio);
+  padding: 0.55rem 1.1rem;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: var(--cor-primaria-escura);
+}
+
+.botao:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.botao.secundario {
+  background: var(--cor-superficie);
+  color: var(--cor-texto);
+  border-color: var(--cor-borda);
+}
+
+.botao.secundario:hover {
+  background: var(--cor-fundo);
+}
+
+.botao.perigo {
+  background: var(--cor-perigo);
+  border-color: var(--cor-perigo);
+}
+
+.acoes {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Formulários */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.formulario.estreito {
+  max-width: 560px;
+}
+
+fieldset {
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+legend {
+  font-weight: 600;
+  padding: 0 0.4rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-weight: 500;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+label.checkbox {
+  flex-direction: row;
+  align-items: center;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 6px;
+  background: #fff;
+  width: 100%;
+}
+
+input[type='checkbox'] {
+  width: auto;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--cor-primaria);
+  outline-offset: -1px;
+}
+
+.grade {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.grade.tres {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.grade .largo {
+  grid-column: 1 / -1;
+}
+
+.linha-rendimento {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto;
+  gap: 0.75rem;
+  align-items: end;
+  width: 100%;
+}
+
+.erro {
+  color: var(--cor-perigo);
+  background: #fdecea;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  margin: 0 0 1rem;
+}
+
+.sucesso {
+  color: var(--cor-sucesso);
+  background: #e8f5e9;
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+}
+
+.carregando,
+.vazio {
+  color: var(--cor-texto-suave);
+}
+
+/* Login e cadastro */
+.pagina-acesso {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+}
+
+.acesso {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+  align-items: center;
+}
+
+.acesso label {
+  text-align: left;
+}
+
+.acesso .botao {
+  width: 100%;
+}
+
+.cadastro {
+  width: 100%;
+  max-width: 720px;
+}
+
+.cadastro .subtitulo {
+  margin-bottom: 1rem;
+}
+
+.rodape-acesso {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* Tabelas */
+.tabela-container {
+  overflow-x: auto;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--cor-borda);
+  white-space: nowrap;
+}
+
+th {
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+  background: #f8f9fb;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Detalhes */
+.detalhes {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 0.6rem 1rem;
+  margin: 0;
+}
+
+.detalhes dt {
+  color: var(--cor-texto-suave);
+}
+
+.detalhes dd {
+  margin: 0;
+}
+
+/* Status */
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.badge-em_analise {
+  background: #fff4e5;
+  color: #a15c00;
+}
+
+.badge-aprovado {
+  background: #e3f2fd;
+  color: #0b5ed7;
+}
+
+.badge-reprovado,
+.badge-cancelado {
+  background: #fdecea;
+  color: var(--cor-perigo);
+}
+
+.badge-contratado {
+  background: #e8f5e9;
+  color: var(--cor-sucesso);
+}
+
+@media (max-width: 640px) {
+  .grade,
+  .grade.tres,
+  .linha-rendimento,
+  .detalhes {
+    grid-template-columns: 1fr;
+  }
+
+  .topo nav {
+    order: 3;
+    flex-basis: 100%;
+  }
+}

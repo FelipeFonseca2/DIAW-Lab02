@@ -24,10 +24,10 @@
 
 ![Status](https://img.shields.io/badge/Status-Em_desenvolvimento-yellow?style=for-the-badge)
 ![Java](https://img.shields.io/badge/Java-25-007ec6?style=for-the-badge&logo=openjdk&logoColor=white)
-![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.x-007ec6?style=for-the-badge&logo=springboot&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.9-007ec6?style=for-the-badge&logo=springboot&logoColor=white)
 ![Maven](https://img.shields.io/badge/Maven-007ec6?style=for-the-badge&logo=apachemaven&logoColor=white)
-![React](https://img.shields.io/badge/React-007ec6?style=for-the-badge&logo=react&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-007ec6?style=for-the-badge&logo=vite&logoColor=white)
+![React](https://img.shields.io/badge/React-19-007ec6?style=for-the-badge&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-8-007ec6?style=for-the-badge&logo=vite&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-007ec6?style=for-the-badge&logo=supabase&logoColor=white)
 ![GitHub last commit](https://img.shields.io/github/last-commit/FelipeFonseca2/DIAW-Lab02?style=for-the-badge&logo=clockify)
 
@@ -44,6 +44,7 @@
   - [Variáveis de Ambiente](#-variáveis-de-ambiente)
   - [Instalação de Dependências](#-instalação-de-dependências)
   - [Como Executar a Aplicação](#-como-executar-a-aplicação)
+  - [Usuários de demonstração](#-usuários-de-demonstração)
 - [Estrutura de Pastas](#-estrutura-de-pastas)
 - [Autores](#-autores)
 
@@ -73,23 +74,26 @@ O projeto acompanha a modelagem UML (casos de uso, histórias de usuário, class
 - 📄 **Contratos:** execução do contrato após parecer positivo, com possível associação a um contrato de crédito bancário.
 - 🚘 **Automóveis:** registro de matrícula, ano, marca, modelo e placa, com propriedade de cliente, empresa ou banco.
 
+**Ciclo de vida do pedido:** `Em análise` → `Aprovado` / `Reprovado` → `Contratado`. Pedidos em análise ou aprovados podem ser `Cancelado`s pelo cliente.
+
 ---
 
 ## 🛠 Tecnologias Utilizadas
 
 ### 💻 Front-end
 
-* **Biblioteca:** React
-* **Build Tool:** Vite
+* **Biblioteca:** React 19
+* **Roteamento:** React Router
+* **Build Tool:** Vite 8
 
 ### 🖥️ Back-end
 
 * **Linguagem:** Java (JDK 25)
-* **Framework:** Spring Boot 4.0.x
-* **Build e dependências:** Apache Maven
-* **Banco de Dados:** Supabase (PostgreSQL)
+* **Framework:** Spring Boot 4.0.9 (Spring Web MVC)
+* **Build e dependências:** Apache Maven (Maven Wrapper incluso)
+* **Banco de Dados:** Supabase (PostgreSQL); H2 em memória no perfil `local`
 * **ORM:** Spring Data JPA / Hibernate
-* **Autenticação:** login com usuário e senha
+* **Autenticação:** Spring Security com login por usuário e senha (BCrypt) e token JWT
 
 ---
 
@@ -98,21 +102,29 @@ O projeto acompanha a modelagem UML (casos de uso, histórias de usuário, class
 O sistema segue o modelo **cliente-servidor**: um servidor central conectado, via Internet, aos computadores locais dos clientes e dos agentes. Ele é dividido em dois subsistemas:
 
 - **Gestão de pedidos e contratos** — back-end em **Spring Boot**, organizado em arquitetura **MVC**:
-  - **Model:** entidades de domínio (Cliente, Agente, Pedido, Contrato, Automóvel etc.) persistidas no Supabase via JPA.
-  - **Controller:** endpoints REST que recebem as requisições do front-end.
-  - **Service / Repository:** regras de negócio e acesso a dados.
+  - **Model** (`model`): entidades de domínio persistidas no Supabase via JPA. As regras do pedido (modificar, cancelar, avaliar, executar contrato) ficam em `PedidoAluguel`.
+  - **Controller** (`controller`): endpoints REST que recebem as requisições do front-end.
+  - **Service / Repository** (`service`, `repository`): casos de uso, controle de acesso por usuário e acesso a dados.
+  - **DTO** (`dto`): objetos de entrada e saída da API, separando o modelo da interface.
 - **Construção dinâmica das páginas web** — front-end em **React + Vite**, responsável pela camada de visualização (View) e pelo consumo da API REST.
 
 **Fluxo de dados:** `React (View)` → `Controller` → `Service` → `Repository` → `Supabase (PostgreSQL)`.
 
+**Autenticação:** `POST /api/auth/login` devolve um JWT, enviado pelo front-end no header `Authorization: Bearer <token>`. O token carrega o perfil (`CLIENTE` ou `AGENTE`), usado para restringir as rotas.
+
 ### Modelagem (UML)
 
-Os modelos do sistema ficam versionados em [`docs/`](docs/) e são atualizados conforme a evolução do projeto:
+Os modelos ficam versionados em [`docs/`](docs/), com o código-fonte PlantUML (`.puml`) ao lado de cada imagem:
 
-- Diagrama de Casos de Uso
-- Histórias de Usuário
-- Diagrama de Classes
-- Diagrama de Pacotes (Visão Lógica)
+| Diagrama de Casos de Uso | Diagrama de Pacotes (Visão Lógica) |
+| :---: | :---: |
+| <img src="docs/diagramas/casos-de-uso.svg" alt="Diagrama de Casos de Uso" width="380px"> | <img src="docs/diagramas/pacotes.svg" alt="Diagrama de Pacotes" width="380px"> |
+
+| Diagrama de Classes |
+| :---: |
+| <img src="docs/diagramas/classes.svg" alt="Diagrama de Classes" width="760px"> |
+
+As **Histórias de Usuário** estão em [`docs/historias-de-usuario.md`](docs/historias-de-usuario.md).
 
 ---
 
@@ -121,9 +133,10 @@ Os modelos do sistema ficam versionados em [`docs/`](docs/) e são atualizados c
 ### Pré-requisitos
 
 * **Java JDK:** versão **25**
-* **Apache Maven**
 * **Node.js:** versão LTS e **npm**
-* **Projeto no Supabase** com banco PostgreSQL
+* **Projeto no Supabase** (opcional para testes locais, veja o perfil `local`)
+
+O Maven não precisa estar instalado: o projeto usa o Maven Wrapper (`mvnw`).
 
 ---
 
@@ -131,21 +144,26 @@ Os modelos do sistema ficam versionados em [`docs/`](docs/) e são atualizados c
 
 #### 1 Back-end (Spring Boot)
 
-Configure como variáveis de ambiente do sistema ou em `backend/src/main/resources/application.properties`.
+Configure como variáveis de ambiente do sistema. Os dados de conexão estão no painel do Supabase, em **Connect**.
 
 | Variável | Descrição | Exemplo |
 | :--- | :--- | :--- |
-| `SPRING_DATASOURCE_URL` | URL JDBC do banco no Supabase. | `jdbc:postgresql://db.<project-ref>.supabase.co:5432/postgres` |
-| `SPRING_DATASOURCE_USERNAME` | Usuário do banco. | `postgres` |
+| `SPRING_DATASOURCE_URL` | URL JDBC do banco no Supabase. | `jdbc:postgresql://aws-0-sa-east-1.pooler.supabase.com:5432/postgres` |
+| `SPRING_DATASOURCE_USERNAME` | Usuário do banco. | `postgres.<project-ref>` |
 | `SPRING_DATASOURCE_PASSWORD` | Senha do banco. | `sua-senha` |
+| `JWT_SECRET` | Chave de assinatura dos tokens (mínimo 32 caracteres). | `uma-chave-longa-e-aleatoria-com-32-caracteres` |
+| `CORS_ORIGINS` | Origens do front-end liberadas (padrão `http://localhost:5173`). | `https://meu-front.vercel.app` |
+
+> [!TIP]
+> A conexão direta do Supabase (`db.<project-ref>.supabase.co`) usa apenas IPv6. Se a sua rede não suportar IPv6, use a URL do **Session pooler**, como no exemplo.
 
 #### 2 Front-end (React, Vite)
 
-Crie um arquivo **`.env`** na pasta `frontend`:
+Opcional. Crie um arquivo **`.env`** na pasta `frontend` (veja `frontend/.env.example`):
 
 | Variável | Descrição | Exemplo |
 | :--- | :--- | :--- |
-| `VITE_API_URL` | URL base da API Spring Boot. | `http://localhost:8080/api` |
+| `VITE_API_URL` | URL base da API. O padrão `/api` usa o proxy do Vite para `http://localhost:8080`. | `/api` |
 
 ---
 
@@ -167,7 +185,7 @@ npm install
 
 ```bash
 cd backend
-mvn clean install
+./mvnw clean install
 ```
 
 ---
@@ -178,11 +196,21 @@ Execute a aplicação em **dois terminais separados**.
 
 #### Terminal 1: Back-end (Spring Boot)
 
+Com o Supabase (variáveis de ambiente configuradas):
+
 ```bash
 cd backend
-mvn spring-boot:run
+./mvnw spring-boot:run
 ```
-🚀 *O Back-end estará disponível em **http://localhost:8080**.*
+
+Ou, para testar sem o Supabase, com o perfil `local` (H2 em memória, os dados são perdidos ao reiniciar):
+
+```bash
+cd backend
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+```
+
+🚀 *O Back-end estará disponível em **http://localhost:8080**.* As tabelas são criadas automaticamente pelo Hibernate.
 
 #### Terminal 2: Front-end (React, Vite)
 
@@ -194,29 +222,50 @@ npm run dev
 
 ---
 
+### 👤 Usuários de demonstração
+
+Na primeira execução com o banco vazio, o sistema cadastra os usuários abaixo e quatro automóveis:
+
+| Perfil | Usuário | Senha |
+| :--- | :--- | :--- |
+| Cliente | `cliente` | `cliente123` |
+| Agente (Empresa) | `empresa` | `empresa123` |
+| Agente (Banco) | `banco` | `banco123` |
+
+Novos clientes podem se cadastrar pela tela de login.
+
+---
+
 ## 📂 Estrutura de Pastas
 
 ```
 .
 ├── README.md                    # 📘 Documentação principal do projeto.
-├── /docs                        # 📚 Modelos UML (casos de uso, histórias, classes, pacotes) e imagens.
+├── /docs
+│   ├── /diagramas               # 📐 Diagramas UML (.puml e .svg): casos de uso, classes e pacotes.
+│   ├── /images                  # 🖼️ Logo do projeto.
+│   └── historias-de-usuario.md  # 📝 Histórias de usuário.
 │
 ├── /frontend                    # 📁 Aplicação React + Vite
 │   ├── /src
-│   │   ├── /components          # 🧱 Componentes reutilizáveis.
-│   │   ├── /pages               # 📄 Páginas (login, pedidos, clientes...).
-│   │   └── /services            # 🔌 Chamadas HTTP à API.
+│   │   ├── /components          # 🧱 Layout, rotas protegidas, formulário de cliente.
+│   │   ├── /context             # 🔐 Estado de autenticação.
+│   │   ├── /pages               # 📄 Login, cadastro, pedidos, perfil e clientes.
+│   │   ├── /services            # 🔌 Chamadas HTTP à API.
+│   │   └── /utils               # 🛠️ Formatação de datas, moeda e status.
+│   ├── vite.config.js           # ⚙️ Proxy /api para o back-end.
 │   └── package.json
 │
 └── /backend                     # 📁 Aplicação Spring Boot (MVC)
-    ├── /src/main/java
-    │   └── /.../aluguel
-    │       ├── /controller      # 🎮 Endpoints REST.
-    │       ├── /service         # ⚙️ Regras de negócio.
-    │       ├── /repository      # 🗄️ Repositórios JPA.
-    │       ├── /model           # 🧬 Entidades.
-    │       └── /dto             # ✉️ Data Transfer Objects.
-    ├── /src/main/resources      # ⚙️ application.properties
+    ├── /src/main/java/br/pucminas/aluguel
+    │   ├── /controller          # 🎮 Endpoints REST.
+    │   ├── /service             # ⚙️ Casos de uso e geração do token JWT.
+    │   ├── /repository          # 🗄️ Repositórios JPA.
+    │   ├── /model               # 🧬 Entidades e regras de domínio.
+    │   ├── /dto                 # ✉️ Data Transfer Objects.
+    │   ├── /config              # 🔧 Segurança, CORS e dados iniciais.
+    │   └── /exception           # 💥 Exceções e tratamento global de erros.
+    ├── /src/main/resources      # ⚙️ application.properties e perfil local.
     └── pom.xml                  # 🛠️ Build e dependências (Maven).
 ```
 

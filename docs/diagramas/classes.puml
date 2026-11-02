@@ -1,0 +1,118 @@
+@startuml classes
+!pragma layout smetana
+skinparam classAttributeIconSize 0
+hide empty members
+
+title Sistema de Aluguel de Carros - Diagrama de Classes (modelo)
+
+abstract class Usuario {
+  - id : Long
+  - login : String
+  - senha : String
+  - nome : String
+  + {abstract} getPerfil() : Perfil
+}
+
+class Cliente {
+  + {static} MAX_RENDIMENTOS : int = 3
+  - rg : String
+  - cpf : String
+  - endereco : String
+  - profissao : String
+  + getPerfil() : Perfil
+  + setRendimentos(rendimentos : List<Rendimento>) : void
+}
+
+class Rendimento <<embeddable>> {
+  - entidadeEmpregadora : String
+  - valor : BigDecimal
+}
+
+abstract class Agente {
+  - cnpj : String
+  + getPerfil() : Perfil
+  + {abstract} getTipo() : TipoProprietario
+}
+
+class Empresa {
+  + getTipo() : TipoProprietario
+}
+
+class Banco {
+  + getTipo() : TipoProprietario
+}
+
+class Automovel {
+  - id : Long
+  - matricula : String
+  - ano : Integer
+  - marca : String
+  - modelo : String
+  - placa : String
+}
+
+class PedidoAluguel {
+  - id : Long
+  - dataInicio : LocalDate
+  - dataFim : LocalDate
+  - dataCriacao : LocalDateTime
+  - status : StatusPedido
+  - parecer : String
+  + modificar(automovel : Automovel, dataInicio : LocalDate, dataFim : LocalDate) : void
+  + cancelar() : void
+  + avaliar(agente : Agente, aprovado : boolean, parecer : String) : void
+  + executarContrato(agente : Agente, tipo : TipoProprietario, credito : ContratoCredito) : void
+}
+
+class Contrato {
+  - id : Long
+  - dataAssinatura : LocalDate
+  - tipoProprietario : TipoProprietario
+}
+
+class ContratoCredito {
+  - id : Long
+  - valor : BigDecimal
+  - taxaJurosMensal : BigDecimal
+  - prazoMeses : Integer
+}
+
+enum Perfil {
+  CLIENTE
+  AGENTE
+}
+
+enum StatusPedido {
+  EM_ANALISE
+  APROVADO
+  REPROVADO
+  CANCELADO
+  CONTRATADO
+}
+
+enum TipoProprietario {
+  CLIENTE
+  EMPRESA
+  BANCO
+}
+
+Usuario <|-- Cliente
+Usuario <|-- Agente
+Agente <|-- Empresa
+Agente <|-- Banco
+
+Cliente *-- "0..3" Rendimento : rendimentos
+Cliente "1" <-- "0..*" PedidoAluguel : cliente
+Automovel "1" <-- "0..*" PedidoAluguel : automovel
+Agente "0..1" <-- "0..*" PedidoAluguel : agenteAvaliador
+PedidoAluguel "1" *-- "0..1" Contrato : contrato
+Contrato "0..*" --> "1" Agente : agente
+Contrato "1" *-- "0..1" ContratoCredito : contratoCredito
+ContratoCredito "0..*" --> "1" Banco : banco
+Automovel "0..*" --> "0..1" Usuario : proprietario
+
+PedidoAluguel ..> StatusPedido
+Contrato ..> TipoProprietario
+Usuario ..> Perfil
+
+@enduml
