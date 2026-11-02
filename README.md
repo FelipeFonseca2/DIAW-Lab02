@@ -207,7 +207,7 @@ Ou, para testar sem o Supabase, com o perfil `local` (H2 em memória, os dados s
 
 ```bash
 cd backend
-./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+./mvnw spring-boot:run "-Dspring-boot.run.profiles=local"
 ```
 
 🚀 *O Back-end estará disponível em **http://localhost:8080**.* As tabelas são criadas automaticamente pelo Hibernate.
